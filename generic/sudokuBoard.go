@@ -23,6 +23,7 @@ type SudokuBoard struct {
 	block [][]*int
 }
 
+//NewSudokuBoard Generates correctly a new Sudoku Board
 func NewSudokuBoard(size int) *SudokuBoard {
 	s := new(SudokuBoard)
 	s.Size = size
@@ -75,6 +76,7 @@ func (s *SudokuBoard) initialize() {
 	}
 }
 
+//ToString generates a formated version of the Sudoku Board
 func (s *SudokuBoard) ToString() string {
 
 	numCharacters := int(math.Floor(math.Log10(float64(s.Size)))) + 1
@@ -125,6 +127,7 @@ func checkBlock(b []*int) bool {
 	return true
 }
 
+//Check returns true if no repetitions are found at any block
 func (s *SudokuBoard) Check() bool {
 	for _, block := range s.block {
 		if !checkBlock(block) {
@@ -140,11 +143,12 @@ func (s *SudokuBoard) Duplicate() *SudokuBoard {
 	return CreateSudokuBoard(s.FormatedCell)
 }
 
+//CreateSudokuBoard generates a Sudoku Board from a matrix of values.
 func CreateSudokuBoard(formatedCell [][]int) *SudokuBoard {
-	size := len(formatedCell)
-	c := NewSudokuBoard(size)
-	for i := 0; i < size; i++ {
-		for j := 0; j < size; j++ {
+
+	c := NewSudokuBoard(len(formatedCell))
+	for i := range formatedCell {
+		for j := range formatedCell[i] {
 			c.FormatedCell[i][j] = formatedCell[i][j]
 		}
 	}
