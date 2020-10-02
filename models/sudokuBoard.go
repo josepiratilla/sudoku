@@ -13,6 +13,11 @@ type SudokuBoard struct {
 
 func NewSudokuBoard() *SudokuBoard {
 	s := new(SudokuBoard)
+	s.createPointers()
+	return s
+}
+
+func (s *SudokuBoard) createPointers() {
 	//Map the row pointers
 	for i := 0; i < 9; i++ {
 		for j := 0; j < 9; j++ {
@@ -35,7 +40,6 @@ func NewSudokuBoard() *SudokuBoard {
 			}
 		}
 	}
-	return s
 }
 
 //Row returns the nth row (starting from 0)
@@ -117,4 +121,20 @@ func (s *SudokuBoard) Check() bool {
 		}
 	}
 	return true
+}
+
+//Duplicate creates an independent SudokuBoard with the same contents.
+func (s *SudokuBoard) Duplicate() *SudokuBoard {
+
+	return CreateSudokuBoard(&s.Cell)
+}
+
+func CreateSudokuBoard(cell *[9][9]int) *SudokuBoard {
+	c := NewSudokuBoard()
+	for i := 0; i < 9; i++ {
+		for j := 0; j < 9; j++ {
+			c.Cell[i][j] = cell[i][j]
+		}
+	}
+	return c
 }

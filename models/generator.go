@@ -1,5 +1,10 @@
 package models
 
+import (
+	"math/rand"
+	"time"
+)
+
 func randomInvalidSudoku() *SudokuBoard {
 	rand.Seed(time.Now().UTC().UnixNano())
 	s := NewSudokuBoard()
