@@ -7,8 +7,8 @@ import (
 
 //SudokuBoard represents a board of sudoku that can be solved or not. A 0 means that number has not been defined.
 type SudokuBoard struct {
-	Cell  [9][9]int8
-	block [27][9]*int8
+	Cell  [9][9]int
+	block [27][9]*int
 }
 
 func NewSudokuBoard() *SudokuBoard {
@@ -39,13 +39,13 @@ func NewSudokuBoard() *SudokuBoard {
 }
 
 //Row returns the nth row (starting from 0)
-func (s *SudokuBoard) Row(rowNum int) [9]int8 {
+func (s *SudokuBoard) Row(rowNum int) [9]int {
 	return s.Cell[rowNum]
 }
 
 //Column returns the nth column (starting from 0)
-func (s *SudokuBoard) Column(columnNum int) [9]int8 {
-	var c [9]int8
+func (s *SudokuBoard) Column(columnNum int) [9]int {
+	var c [9]int
 	for a := 0; a < 9; a++ {
 		c[a] = s.Cell[a][columnNum]
 	}
@@ -57,8 +57,8 @@ func (s *SudokuBoard) Column(columnNum int) [9]int8 {
 //    012
 //    345
 //    678
-func (s *SudokuBoard) House(houseNum int) [9]int8 {
-	var h [9]int8
+func (s *SudokuBoard) House(houseNum int) [9]int {
+	var h [9]int
 
 	for i := 0; i < 9; i++ {
 		h[i] = *(s.block[houseNum+18][i])
@@ -77,7 +77,7 @@ func (s *SudokuBoard) ToString() string {
 			if s.Cell[i][j] == 0 {
 				b.WriteString(".")
 			} else {
-				b.WriteString(strconv.Itoa(int(s.Cell[i][j])))
+				b.WriteString(strconv.Itoa(s.Cell[i][j]))
 			}
 			b.WriteString(" ")
 			if j%3 == 2 {
@@ -92,10 +92,10 @@ func (s *SudokuBoard) ToString() string {
 	return b.String()
 }
 
-func checkBlock(b *[9]*int8) bool {
+func checkBlock(b *[9]*int) bool {
 
 	var count int
-	for i := int8(1); i < 10; i++ {
+	for i := 1; i < 10; i++ {
 		count = 0
 		for j := 0; j < 9; j++ {
 			if *b[j] == i {
