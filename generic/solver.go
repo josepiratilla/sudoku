@@ -102,6 +102,93 @@ func solver(sudoku *SudokuBoard, fixedMap []bool, i int) (*SudokuBoard, error) {
 
 func Solver(sudoku *SudokuBoard) (*SudokuBoard, error) {
 	workingSudoku := sudoku.Duplicate()
-	fixedMap := createFixedMap(sudoku)
+	//a := workingSudoku.Duplicate()
+	//solverStepOnlyValue(a)
+	//fmt.Print(a.ToString())
+	solverStepOnlyValue(workingSudoku)
+	fixedMap := createFixedMap(workingSudoku)
 	return solver(workingSudoku, fixedMap[:], 0)
+}
+
+func solverStepOnlyValue(s *SudokuBoard) {
+	//var previousFoundCandidate, foundCandidate, row, column, house int
+	var candidates []int
+	found := true
+	for found {
+		found = false
+		for cell := range s.Cell {
+			if s.Cell[cell] == 0 {
+				// row = cell / s.Size
+				// column = cell % s.Size
+				// house, _ = houseRelative(row, column, s.smallSize)
+				// column += s.Size
+				// house += s.Size + s.Size
+				// previousFoundCandidate = 0
+				// for candidate := 1; candidate < s.Size; candidate++ {
+				// 	foundCandidate = 0
+				// 	for i := 1; i < s.Size; i++ {
+				// 		if *s.block[row][i] == candidate || *s.block[column][i] == candidate || *s.block[house][i] == candidate {
+				// 			foundCandidate = candidate
+				// 			break
+				// 		}
+				// 	}
+				// 	if foundCandidate != 0 {
+				// 		if previousFoundCandidate != 0 {
+				// 			break
+				// 		} else {
+				// 			previousFoundCandidate = foundCandidate
+				// 		}
+				// 	}
+				// }
+				// if previousFoundCandidate == foundCandidate && foundCandidate != 0 {
+				// 	s.Cell[cell] = foundCandidate
+				// 	found = true
+				// }
+				candidates = possibleCandidates(s, cell)
+				if len(candidates) == 1 {
+					s.Cell[cell] = candidates[0]
+					found = true
+				}
+			}
+		}
+	}
+}
+
+func possibleCandidates(s *SudokuBoard, cell int) []int {
+	var candidates []int
+	var blocks []int
+	found := false
+
+	if s.Cell[cell] != 0 {
+		candidates = append(candidates, s.Cell[cell])
+	} else {
+		blocks = blocksPerCell(cell, s.smallSize)
+		for c := 1; c < s.Size+1; c++ {
+			found = false
+			for _, b := range blocks {
+				for _, v := range s.block[b] {
+					if *v == c {
+						found = true
+						break
+					}
+				}
+				if found {
+					break
+				}
+			}
+			if !found {
+				candidates = append(candidates, c)
+			}
+		}
+	}
+	return candidates
+}
+
+func blocksPerCell(cell int, smallSize int) []int {
+	size := smallSize * smallSize
+	row := cell / size
+	column := cell % size
+	house, _ := houseRelative(row, column, smallSize)
+	a := [3]int{row, column + size, house + size + size}
+	return a[:]
 }

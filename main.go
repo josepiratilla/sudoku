@@ -38,6 +38,18 @@ var sudoku9 = [][]int{
 	[]int{0, 9, 0, 0, 0, 0, 4, 0, 0},
 }
 
+var sudoku9easy = [][]int{
+	[]int{0, 0, 0, 0, 0, 0, 0, 0, 0},
+	[]int{0, 3, 0, 0, 0, 0, 1, 6, 0},
+	[]int{0, 6, 7, 0, 3, 5, 0, 0, 4},
+	[]int{6, 0, 8, 1, 2, 0, 9, 0, 0},
+	[]int{0, 9, 0, 0, 8, 0, 0, 3, 0},
+	[]int{0, 0, 2, 0, 7, 9, 8, 0, 6},
+	[]int{8, 0, 0, 6, 9, 0, 3, 5, 0},
+	[]int{0, 2, 6, 0, 0, 0, 0, 9, 0},
+	[]int{0, 0, 0, 0, 0, 0, 0, 0, 0},
+}
+
 func main() {
 	// cell := [9][9]int{
 	// 	{8, 0, 0, 0, 0, 0, 0, 0, 0},
@@ -64,8 +76,14 @@ func main() {
 	// 		fmt.Println("Checked: Solution is valid!")
 	// 	}
 	// }
+	solveAndPrint(sudoku9easy)
+	solveAndPrint(sudoku9)
+
+}
+
+func solveAndPrint(matrix [][]int) {
 	startTime := time.Now()
-	s := generic.CreateSudokuBoard(sudoku16)
+	s := generic.CreateSudokuBoard(matrix)
 	fmt.Print(s.ToString())
 	p, err := generic.Solver(s)
 	if err == nil {
@@ -76,5 +94,4 @@ func main() {
 	}
 	elapsedTime := time.Since(startTime)
 	fmt.Printf("Time for solution %s\n", elapsedTime.String())
-
 }
