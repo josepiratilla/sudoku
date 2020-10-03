@@ -5,6 +5,7 @@ import (
 	"time"
 
 	"github.com/josepiratilla/sudoku/generic"
+	"github.com/josepiratilla/sudoku/stepbystep"
 )
 
 var sudoku16 = [][]int{
@@ -76,9 +77,9 @@ func main() {
 	// 		fmt.Println("Checked: Solution is valid!")
 	// 	}
 	// }
-	solveAndPrint(sudoku9easy)
-	solveAndPrint(sudoku9)
 
+	s := stepbystep.CreateSudokuBoard(3)
+	println(s)
 }
 
 func solveAndPrint(matrix [][]int) {
