@@ -23,6 +23,8 @@ type Cell struct {
 	Row int
 	//Column indicates the Column number the Cell belongs to
 	Column int
+	//Box indicates the box number the cell belongs to
+	Box int
 	//Index indicates the position in the linear organization of the cell
 	Index int
 }
@@ -110,6 +112,7 @@ func NewSudokuBoard(smallSize int) *SudokuBoard {
 			s.FormatedCells[r][c].Index = r*s.Size + c
 			s.FormatedCells[r][c].Row = r
 			s.FormatedCells[r][c].Column = c
+			s.FormatedCells[r][c].Box = boxNum
 		}
 	}
 
@@ -295,7 +298,7 @@ func CreateSudokuBoardFromMatrix(matrix [][]int) *SudokuBoard {
 
 //TextPosition returns a text decribing the position as [2,3]
 func (c *Cell) TextPosition() string {
-	return fmt.Sprintf("[%d-%d]", c.Row+1, c.Column+1)
+	return fmt.Sprintf("[r%dc%d]", c.Row+1, c.Column+1)
 }
 
 //houseTextDescription proves a text describing the house.

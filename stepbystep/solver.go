@@ -11,11 +11,15 @@ type stepDescription struct {
 	description string
 }
 
+const complexityLogged = 0
+const showBoardLog = false
+
 //Solver solves the sudoku and returns a description on how was it solved.
 func Solver(s *SudokuBoard) string {
 	steps := []func(*SudokuBoard) (string, bool){
-		stepOnly1Candidate,
-		stepOnly1OptionInHouse,
+		stepNakedSingle,
+		stepHiddenSingle,
+		stepLockedCandidates,
 	}
 	maxSteps := len(steps)
 	k := 0
@@ -31,7 +35,9 @@ func Solver(s *SudokuBoard) string {
 		if result {
 			currentStepLog.sudoku = s.ToString()
 			currentStepLog.description = description
-			logs = append(logs, currentStepLog)
+			if k >= complexityLogged {
+				logs = append(logs, currentStepLog)
+			}
 			k = 0
 		} else {
 			k++
@@ -40,7 +46,9 @@ func Solver(s *SudokuBoard) string {
 	var b bytes.Buffer
 	for k := range logs {
 		b.WriteString(logs[k].description)
-		b.WriteString(logs[k].sudoku)
+		if showBoardLog {
+			b.WriteString(logs[k].sudoku)
+		}
 		b.WriteString("\n")
 	}
 	return b.String()
