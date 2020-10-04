@@ -108,6 +108,8 @@ func NewSudokuBoard(smallSize int) *SudokuBoard {
 			}
 
 			s.FormatedCells[r][c].Index = r*s.Size + c
+			s.FormatedCells[r][c].Row = r
+			s.FormatedCells[r][c].Column = c
 		}
 	}
 
@@ -115,7 +117,7 @@ func NewSudokuBoard(smallSize int) *SudokuBoard {
 }
 
 func boxPosToIndex(boxNum int, boxIndex int, smallSize int) int {
-	size := smallSize * 2
+	size := smallSize * smallSize
 	innerRPos := boxIndex / smallSize
 	innerCPos := boxIndex % smallSize
 	boxRPos := boxNum / smallSize
@@ -264,11 +266,14 @@ func (c *Cell) Set(value int) {
 		for i := range c.Houses[h] {
 			if i != c.HousePos[h] {
 				delete(c.Houses[h][i].Candidates, value)
+				//fmt.Println(extSudoku.ToString())
 			}
 		}
 	}
 
 }
+
+//var extSudoku *SudokuBoard
 
 //CreateSudokuBoardFromMatrix creates and initialices a SudokuBoard from a matrix of integers
 func CreateSudokuBoardFromMatrix(matrix [][]int) *SudokuBoard {
@@ -276,6 +281,7 @@ func CreateSudokuBoardFromMatrix(matrix [][]int) *SudokuBoard {
 	smallSize := int(math.Sqrt(float64(size)))
 	s := NewSudokuBoard(smallSize)
 	//fmt.Println(s.ToString())
+	//extSudoku = s
 	for i := range matrix {
 		for j := range matrix[i] {
 			if matrix[i][j] != 0 {
@@ -285,4 +291,25 @@ func CreateSudokuBoardFromMatrix(matrix [][]int) *SudokuBoard {
 		}
 	}
 	return s
+}
+
+//TextPosition returns a text decribing the position as [2,3]
+func (c *Cell) TextPosition() string {
+	return fmt.Sprintf("[%d-%d]", c.Row+1, c.Column+1)
+}
+
+//houseTextDescription proves a text describing the house.
+func houseTextDescription(s *SudokuBoard, house int) string {
+
+	houseType := house / s.Size
+	houseIndex := house % s.Size
+	switch houseType {
+	case 0:
+		return fmt.Sprintf("row %d", houseIndex+1)
+	case 1:
+		return fmt.Sprintf("column %d", houseIndex+1)
+	case 2:
+		return fmt.Sprintf("box [%d-%d]", houseIndex/s.SmallSize, houseIndex%s.SmallSize)
+	}
+	return "ERROR!"
 }

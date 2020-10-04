@@ -60,10 +60,9 @@ var sudoku4 = [][]int{
 
 func main() {
 
-	s := stepbystep.CreateSudokuBoardFromMatrix(sudoku4)
+	s := stepbystep.CreateSudokuBoardFromMatrix(sudoku9easy)
 	fmt.Println(s.ToStringWithoutCandidates())
-	fmt.Println(s.ToString())
-
+	fmt.Println(stepbystep.Solver(s))
 }
 
 func solveAndPrint(matrix [][]int) {
