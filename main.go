@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/josepiratilla/sudoku/generic"
-	"github.com/josepiratilla/sudoku/stepbystep"
+	"sudoku/generic"
+	"sudoku/stepbystep"
 )
 
 var sudoku16 = [][]int{
@@ -51,35 +51,19 @@ var sudoku9easy = [][]int{
 	[]int{0, 0, 0, 0, 0, 0, 0, 0, 0},
 }
 
+var sudoku4 = [][]int{
+	[]int{1, 0, 0, 0},
+	[]int{0, 0, 3, 0},
+	[]int{0, 2, 0, 0},
+	[]int{0, 0, 0, 0},
+}
+
 func main() {
-	// cell := [9][9]int{
-	// 	{8, 0, 0, 0, 0, 0, 0, 0, 0},
-	// 	{0, 0, 3, 6, 0, 0, 0, 0, 0},
-	// 	{0, 7, 0, 0, 9, 0, 2, 0, 0},
-	// 	{0, 5, 0, 0, 0, 7, 0, 0, 0},
-	// 	{0, 0, 0, 0, 4, 5, 7, 0, 0},
-	// 	{0, 0, 0, 1, 0, 0, 0, 3, 0},
-	// 	{0, 0, 1, 0, 0, 0, 0, 6, 8},
-	// 	{0, 0, 8, 5, 0, 0, 0, 1, 0},
-	// 	{0, 9, 0, 0, 0, 0, 4, 0, 0},
-	// }
-	// s := models.CreateSudokuBoard(&cell)
 
-	// fmt.Println("Sudoku to solve:")
-	// fmt.Print(s.ToString())
-	// p, err := models.Solver(s)
-	// if err != nil {
-	// 	fmt.Println(err)
-	// } else {
-	// 	fmt.Println("Solution:")
-	// 	fmt.Print(p.ToString())
-	// 	if p.Check() {
-	// 		fmt.Println("Checked: Solution is valid!")
-	// 	}
-	// }
+	s := stepbystep.CreateSudokuBoardFromMatrix(sudoku4)
+	fmt.Println(s.ToStringWithoutCandidates())
+	fmt.Println(s.ToString())
 
-	s := stepbystep.CreateSudokuBoard(3)
-	println(s)
 }
 
 func solveAndPrint(matrix [][]int) {
