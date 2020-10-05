@@ -316,3 +316,38 @@ func houseTextDescription(s *SudokuBoard, house int) string {
 	}
 	return "ERROR!"
 }
+
+//Check analizes the Sudoku and look for incongruencies. If found, it means that it has no solution and it will return false.
+func (s *SudokuBoard) Check() bool {
+	for i := range s.ListCells {
+		if s.ListCells[i].Value != 0 {
+			for h := range s.ListCells[i].Houses {
+				for hi := range s.ListCells[i].Houses[h] {
+					if s.ListCells[i].HousePos[h] != hi {
+						if s.ListCells[i].Value == s.ListCells[i].Houses[h][hi].Value {
+							return false
+						}
+					}
+				}
+			}
+		} else {
+			if len(s.ListCells[i].Candidates) == 0 {
+				return false
+			}
+		}
+	}
+	return true
+}
+
+//Duplicate creates and independed replica of the sudoku board
+func (s *SudokuBoard) Duplicate() *SudokuBoard {
+	dup := NewSudokuBoard(s.SmallSize)
+	for i := range s.ListCells {
+		dup.ListCells[i].Value = s.ListCells[i].Value
+		dup.ListCells[i].Candidates = make(map[int]int)
+		for k, v := range s.ListCells[i].Candidates {
+			dup.ListCells[i].Candidates[k] = v
+		}
+	}
+	return dup
+}

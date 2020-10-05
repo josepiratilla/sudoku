@@ -24,7 +24,7 @@ var sudoku16 = [][]int{
 	[]int{0, 0, 0, 13, 16, 7, 0, 11, 9, 12, 0, 10, 4, 0, 0, 0},
 	[]int{16, 0, 2, 0, 0, 14, 1, 0, 0, 0, 11, 13, 0, 0, 0, 0},
 	[]int{8, 0, 0, 11, 5, 0, 4, 12, 0, 0, 0, 1, 13, 0, 0, 0},
-	[]int{0, 5, 9, 1, 0, 3, 15, 13, 0, 0, 0, 16, 0, 0, 12, 14},
+	[]int{0, 5, 9, 1, 0, 3, 15, 0 /* 13*/, 0, 0, 0, 0 /*16*/, 0, 0, 0 /*12*/, 0 /*14*/},
 }
 
 var sudoku9 = [][]int{
@@ -81,10 +81,17 @@ var sudoku4 = [][]int{
 	[]int{0, 2, 0, 0},
 	[]int{0, 0, 0, 0},
 }
+var sudoku4NoSolution = [][]int{
+	[]int{1, 0, 0, 0},
+	[]int{0, 0, 3, 0},
+	[]int{0, 2, 0, 0},
+	[]int{0, 0, 0, 1},
+}
 
 func main() {
 
-	s := stepbystep.CreateSudokuBoardFromMatrix(sudoku16)
+	//solveAndPrint(sudoku9)
+	s := stepbystep.CreateSudokuBoardFromMatrix(sudoku9)
 	fmt.Println(s.ToStringWithoutCandidates())
 	fmt.Println(stepbystep.Solver(s))
 }
